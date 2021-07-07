@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('register', [\App\Http\Controllers\AuthController::class, 'register']);
+Route::post('login', [\App\Http\Controllers\AuthController::class, 'login']);
+
+//Route::group(function(){
+//    Route::get('chat', function (){
+//        return response(['messages' => [1,2,3]]);
+//    });
+//})->middleware('auth:sanctum');
