@@ -1,3 +1,5 @@
+import Vuetify from 'vuetify';
+
 window._ = require('lodash');
 
 /**
