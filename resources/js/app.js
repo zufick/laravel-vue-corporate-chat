@@ -5,11 +5,13 @@ import Vuetify from "vuetify";
 import router from './router';
 import App from './pages/Layout.vue';
 import store from './store';
+import {Vuelidate} from "vuelidate";
 
 /**
  * Активация библиотеки интерфейсов Vuetify
  */
 Vue.use(Vuetify);
+Vue.use(Vuelidate);
 
 
 /**
