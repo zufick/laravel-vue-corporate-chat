@@ -1,21 +1,12 @@
 <template>
     <v-app id="inspire">
-        <v-system-bar app>
-            <v-spacer></v-spacer>
-
-            <v-icon>mdi-square</v-icon>
-
-            <v-icon>mdi-circle</v-icon>
-
-            <v-icon>mdi-triangle</v-icon>
-        </v-system-bar>
-
         <v-app-bar
             app
             clipped-right
             flat
             height="72"
         >
+            <h2>Channel name</h2>
             <v-spacer></v-spacer>
 
             <v-responsive max-width="156">
@@ -34,37 +25,17 @@
             app
             width="300"
         >
-            <v-navigation-drawer
-                v-model="drawer"
-                absolute
-                color="grey lighten-3"
-                mini-variant
-            >
-                <v-avatar
-                    class="d-block text-center mx-auto mt-4"
-                    color="grey darken-1"
-                    size="36"
-                ></v-avatar>
-
-                <v-divider class="mx-3 my-5"></v-divider>
-
-                <v-avatar
-                    v-for="n in 6"
-                    :key="n"
-                    class="d-block text-center mx-auto mb-9"
-                    color="grey lighten-1"
-                    size="28"
-                ></v-avatar>
-            </v-navigation-drawer>
-
             <v-sheet
                 color="grey lighten-5"
                 height="128"
                 width="100%"
-            ></v-sheet>
+                class="pr-2"
+            >
+                <CurrentUserPanel></CurrentUserPanel>
+            </v-sheet>
 
             <v-list
-                class="pl-14 d-flex flex-column justify-content-between fill-height"
+                class="pl-4 mt-4 d-flex flex-column justify-space-between"
                 shaped
             >
                 <div>
@@ -74,11 +45,10 @@
                         link
                     >
                         <v-list-item-content>
-                            <v-list-item-title>Item {{ n }}</v-list-item-title>
+                            <v-list-item-title><b>#</b> Item {{ n }}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                 </div>
-                <h1>aaaaaaaaaaaaa</h1>
             </v-list>
 
         </v-navigation-drawer>
@@ -126,8 +96,13 @@
 </template>
 
 <script>
+import CurrentUserPanel from "./CurrentUserPanel";
+
 export default {
     data: () => ({ drawer: null }),
+    components: {
+        CurrentUserPanel
+    }
 }
 </script>
 
