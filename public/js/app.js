@@ -2417,6 +2417,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -39811,22 +39816,35 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-list",
-            { staticClass: "pl-14", attrs: { shaped: "" } },
-            _vm._l(5, function(n) {
-              return _c(
-                "v-list-item",
-                { key: n, attrs: { link: "" } },
-                [
-                  _c(
-                    "v-list-item-content",
-                    [_c("v-list-item-title", [_vm._v("Item " + _vm._s(n))])],
+            {
+              staticClass:
+                "pl-14 d-flex flex-column justify-content-between fill-height",
+              attrs: { shaped: "" }
+            },
+            [
+              _c(
+                "div",
+                _vm._l(5, function(n) {
+                  return _c(
+                    "v-list-item",
+                    { key: n, attrs: { link: "" } },
+                    [
+                      _c(
+                        "v-list-item-content",
+                        [
+                          _c("v-list-item-title", [_vm._v("Item " + _vm._s(n))])
+                        ],
+                        1
+                      )
+                    ],
                     1
                   )
-                ],
+                }),
                 1
-              )
-            }),
-            1
+              ),
+              _vm._v(" "),
+              _c("h1", [_vm._v("aaaaaaaaaaaaa")])
+            ]
           )
         ],
         1
