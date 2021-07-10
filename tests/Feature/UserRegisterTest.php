@@ -22,7 +22,7 @@ class UserRegisterTest extends TestCase
      *
      * @return void
      */
-    public function test_registration_fails_validation_email()
+    public function test_registration_fails_validation_email_unique()
     {
         for ($i = 0; $i <= 1; $i++) {
             $response = $this->postJson('/api/register', [

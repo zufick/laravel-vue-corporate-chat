@@ -40,7 +40,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
         if(!$user || !Hash::check($request->password, $user->password)){
-            return response(['error' => 'Неверный логин или пароль!'])->setStatusCode(401);
+            return response(['errors' => ['email' => ['Неверный E-mail или пароль!']]])->setStatusCode(422);
         }
 
         $token = $user->createToken('vueAppToken')->plainTextToken;

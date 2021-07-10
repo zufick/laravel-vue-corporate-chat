@@ -10,9 +10,7 @@ use Tests\TestCase;
 class UserAuthTest extends TestCase
 {
     /**
-     * A basic feature test example.
-     *
-     * @return void
+     * Тест успешной авторизации
      */
     public function test_user_authenticates()
     {
@@ -23,5 +21,19 @@ class UserAuthTest extends TestCase
             'password' => 'password',
         ]);
         $response->assertStatus(200);
+    }
+
+    /**
+     * Тест ошибки при авторизации
+     */
+    public function test_user_wrong_password()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post('/api/login', [
+            'email' => $user->email,
+            'password' => '123123',
+        ]);
+        $response->assertStatus(422);
     }
 }
