@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import store from '../store'
+
 export default {
     data: () => ({
         loginData: {
@@ -65,6 +67,11 @@ export default {
         async login(){
             try {
                 let res = await axios.post('/api/login', this.loginData);
+                if(res.status === 200){
+                    store.saveToken(res.data.token);
+                    await store.authorize();
+                    this.$router.push('/');
+                }
             }
             catch (e) {
                 if(e.response.status === 422){
