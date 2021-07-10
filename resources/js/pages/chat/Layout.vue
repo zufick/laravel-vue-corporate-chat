@@ -64,19 +64,23 @@
             ></v-sheet>
 
             <v-list
-                class="pl-14"
+                class="pl-14 d-flex flex-column justify-content-between fill-height"
                 shaped
             >
-                <v-list-item
-                    v-for="n in 5"
-                    :key="n"
-                    link
-                >
-                    <v-list-item-content>
-                        <v-list-item-title>Item {{ n }}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
+                <div>
+                    <v-list-item
+                        v-for="n in 5"
+                        :key="n"
+                        link
+                    >
+                        <v-list-item-content>
+                            <v-list-item-title>Item {{ n }}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </div>
+                <h1>aaaaaaaaaaaaa</h1>
             </v-list>
+
         </v-navigation-drawer>
 
         <v-navigation-drawer
@@ -94,6 +98,7 @@
                         <v-list-item-title>Item {{ n }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+
             </v-list>
         </v-navigation-drawer>
 
