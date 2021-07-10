@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import CurrentUserPanel from "./CurrentUserPanel";
+import CurrentUserPanel from "./components/CurrentUserPanel";
 
 export default {
     data: () => ({ drawer: null }),

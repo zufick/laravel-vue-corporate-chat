@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    /**
+     * Регистрация пользователя
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|object
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -27,6 +33,11 @@ class AuthController extends Controller
         return response(['message' => 'Вы успешно зарегистрировались!'])->setStatusCode(201);
     }
 
+    /**
+     * Авторизация пользователя
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|object
+     */
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -45,5 +56,16 @@ class AuthController extends Controller
 
         $token = $user->createToken('vueAppToken')->plainTextToken;
         return response(['token' => $token]);
+    }
+
+    /**
+     * Выход из аккаунта
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response(['message' => 'Вы вышли из аккаунта.']);
     }
 }

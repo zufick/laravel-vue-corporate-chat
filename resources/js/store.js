@@ -27,5 +27,19 @@ export default Vue.observable({
 
             this.userCheckInitialized = true;
         }
+    },
+    async logout(){
+        try {
+            let res = await axios.post('/api/logout');
+            if(res.status === 200){
+                this.user = {};
+                localStorage.removeItem('token');
+                return true;
+            }
+        }
+        catch (e) {
+
+        }
+        return false;
     }
 });
