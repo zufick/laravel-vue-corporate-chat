@@ -13,6 +13,7 @@ export default Vue.observable({
         let token = localStorage.getItem('token');
         if(token){
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+            window.Echo.connector.options.auth.headers['Authorization'] = 'Bearer ' + token;
 
             try {
                 let res = await axios.get('/api/user');

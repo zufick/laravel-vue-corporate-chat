@@ -24,6 +24,9 @@ Route::middleware('auth:sanctum')->group(function(){
         return $request->user();
     });
 
+    Route::post('messages/{room}', [\App\Http\Controllers\MessageController::class, 'store']);
+
+
     Route::middleware('admin')->group(function() {
         Route::get('users', [\App\Http\Controllers\UserController::class, 'index']);
         Route::patch('user/{user}', [\App\Http\Controllers\UserController::class, 'update']);
