@@ -20,7 +20,7 @@ Vue.use(Vuelidate);
  */
 const app = new Vue({
     router,
-    vuetify: new Vuetify(),
+    vuetify: new Vuetify({theme: { dark: localStorage.getItem('dark-theme') }}),
     el: '#app',
     render: h => h(App),
     computed: {

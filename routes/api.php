@@ -23,4 +23,10 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('user', function (Request $request) {
         return $request->user();
     });
+
+    Route::middleware('admin')->group(function() {
+        Route::get('users', [\App\Http\Controllers\UserController::class, 'index']);
+        Route::patch('user/{user}', [\App\Http\Controllers\UserController::class, 'update']);
+        Route::delete('user/{user}', [\App\Http\Controllers\UserController::class, 'delete']);
+    });
 });

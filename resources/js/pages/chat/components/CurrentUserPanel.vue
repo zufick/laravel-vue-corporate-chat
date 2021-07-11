@@ -22,19 +22,7 @@
             </div>
         </div>
         <div class="mt-4">
-            <v-tooltip bottom v-if="userAdmin">
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                    icon
-                    elevation="2"
-                    v-bind="attrs"
-                    v-on="on"
-                    >
-                        <v-icon small>mdi-account-multiple</v-icon>
-                    </v-btn>
-                </template>
-                <span>Управление пользователями</span>
-            </v-tooltip>
+            <ManageUsersButton v-if="userAdmin"></ManageUsersButton>
             <LogoutButton></LogoutButton>
         </div>
     </v-card>
@@ -43,10 +31,13 @@
 <script>
 import store from "../../../store";
 import LogoutButton from "./LogoutButton";
+import ManageUsersButton from "./ManageUsersButton";
+
 
 export default {
     components: {
-        LogoutButton
+        LogoutButton,
+        ManageUsersButton,
     },
     computed: {
         userName(){

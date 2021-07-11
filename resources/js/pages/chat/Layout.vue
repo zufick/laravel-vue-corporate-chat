@@ -26,14 +26,15 @@
             width="300"
         >
             <v-sheet
-                color="grey lighten-5"
                 height="128"
                 width="100%"
                 class="pr-2"
             >
                 <CurrentUserPanel></CurrentUserPanel>
             </v-sheet>
-
+            <v-sheet class="d-flex align-center pl-8">
+                <ThemePanel></ThemePanel>
+            </v-sheet>
             <v-list
                 class="pl-4 mt-4 d-flex flex-column justify-space-between"
                 shaped
@@ -49,8 +50,8 @@
                         </v-list-item-content>
                     </v-list-item>
                 </div>
-            </v-list>
 
+            </v-list>
         </v-navigation-drawer>
 
         <v-navigation-drawer
@@ -97,11 +98,13 @@
 
 <script>
 import CurrentUserPanel from "./components/CurrentUserPanel";
+import ThemePanel from "./components/ThemePanel";
 
 export default {
     data: () => ({ drawer: null }),
     components: {
-        CurrentUserPanel
+        CurrentUserPanel,
+        ThemePanel
     }
 }
 </script>

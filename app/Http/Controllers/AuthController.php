@@ -30,7 +30,7 @@ class AuthController extends Controller
         $validated = $validator->validated();
         $validated['password'] = Hash::make($validated['password']);
         User::create($validated);
-        return response(['message' => 'Вы успешно зарегистрировались!'])->setStatusCode(201);
+        return response(['message' => 'Вы успешно зарегистрировались! Вы сможете войти в учётную запись после подтверждения вашего аккаунта администратором.'])->setStatusCode(201);
     }
 
     /**
@@ -52,6 +52,10 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         if(!$user || !Hash::check($request->password, $user->password)){
             return response(['errors' => ['email' => ['Неверный E-mail или пароль!']]])->setStatusCode(422);
+        }
+
+        if(!$user->approved){
+            return response(['errors' => ['email' => ['Ваш аккаунт ожидает подтверждения администратора.']]])->setStatusCode(422);
         }
 
         $token = $user->createToken('vueAppToken')->plainTextToken;
