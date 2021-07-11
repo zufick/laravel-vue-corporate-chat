@@ -119,7 +119,7 @@
                 <v-card-text>Вы уверены, что хотите удалить данного пользователя?</v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                    <v-btn color="blue darken-1" text @click="closeDelete">Отмена</v-btn>
                     <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>

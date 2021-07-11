@@ -35,29 +35,12 @@
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
                         <v-toolbar-title>Управление пользователями</v-toolbar-title>
-                        <v-spacer></v-spacer>
-                        <v-toolbar-items>
-                            <v-btn
-                                dark
-                                text
-                                @click="dialog = false"
-                            >
-                                Save
-                            </v-btn>
-                        </v-toolbar-items>
                     </v-toolbar>
                     <v-list
                         three-line
                         subheader
                     >
                         <ManageUsersTable></ManageUsersTable>
-                    </v-list>
-                    <v-divider></v-divider>
-                    <v-list
-                        three-line
-                        subheader
-                    >
-                        <v-subheader>General</v-subheader>
                     </v-list>
                 </v-card>
             </v-dialog>

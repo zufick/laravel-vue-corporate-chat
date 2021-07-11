@@ -2668,23 +2668,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -41287,32 +41270,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("v-toolbar-title", [
                         _vm._v("Управление пользователями")
-                      ]),
-                      _vm._v(" "),
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-toolbar-items",
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { dark: "", text: "" },
-                              on: {
-                                click: function($event) {
-                                  _vm.dialog = false
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Save\n                        "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      )
+                      ])
                     ],
                     1
                   ),
@@ -41321,15 +41279,6 @@ var render = function() {
                     "v-list",
                     { attrs: { "three-line": "", subheader: "" } },
                     [_c("ManageUsersTable")],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-divider"),
-                  _vm._v(" "),
-                  _c(
-                    "v-list",
-                    { attrs: { "three-line": "", subheader: "" } },
-                    [_c("v-subheader", [_vm._v("General")])],
                     1
                   )
                 ],
@@ -41663,7 +41612,7 @@ var render = function() {
                       attrs: { color: "blue darken-1", text: "" },
                       on: { click: _vm.closeDelete }
                     },
-                    [_vm._v("Cancel")]
+                    [_vm._v("Отмена")]
                   ),
                   _vm._v(" "),
                   _c(
