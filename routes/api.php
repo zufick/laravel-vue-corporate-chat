@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function(){
         return $request->user();
     });
 
+    Route::get('messages/{room}', [\App\Http\Controllers\MessageController::class, 'index']);
     Route::post('messages/{room}', [\App\Http\Controllers\MessageController::class, 'store']);
 
 

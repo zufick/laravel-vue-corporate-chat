@@ -25,6 +25,44 @@
                 @keyup.enter="sendMessage"
             ></v-text-field>
         </v-footer>
+
+        <v-navigation-drawer
+            app
+            clipped
+            right
+        >
+            <v-list>
+                <v-list-item
+                    v-for="(user,id) in users"
+                    :key="id"
+                    link
+                >
+                    <v-list-item-content>
+
+                        <v-list-item-title>
+                            <v-badge
+                                bordered
+                                bottom
+                                color="green accent-4"
+                                dot
+                                offset-x="10"
+                                offset-y="10"
+                                class="mt-0 mr-1"
+                            >
+                                <v-avatar
+                                    color="primary"
+                                    size="38"
+                                >
+                                    <span class="white--text text-h5">{{ userInitials(user.name) }}</span>
+                                </v-avatar>
+                            </v-badge>
+                            {{ user.name }}
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+            </v-list>
+        </v-navigation-drawer>
     </div>
 </template>
 
@@ -37,19 +75,21 @@ export default {
         return {
             roomId: 1,
             messages: [],
+            users: [],
             textMessage: '',
         }
     },
     mounted() {
+        this.loadPreviousMessages();
         window.Echo.join(`chat.${this.roomId}`)
         .here((users) => {
-            console.log("here", users);
+            this.users = users;
         })
         .joining((user) => {
-            console.log("joining", user.name);
+            this.users.push(user);
         })
         .leaving((user) => {
-            console.log("leaving", user.name);
+            this.users = this.users.filter(u => u.id !== user.id);
         })
         .error((error) => {
             console.error(error);
@@ -64,6 +104,13 @@ export default {
         }
     },
     methods: {
+        async loadPreviousMessages(){
+            let res = await axios.get('/api/messages/' + this.roomId);
+            this.messages = res.data.messages;
+        },
+        userInitials(name) {
+            return name[0];
+        },
         sendMessage(){
             if (/^ *$/.test(this.textMessage))
                 return;
