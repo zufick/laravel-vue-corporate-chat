@@ -52,4 +52,22 @@ class User extends Authenticatable
     public static function approved(){
         return self::where('approved', 1);
     }
+
+    public function rooms()
+    {
+        return $this->belongsToMany(Room::class, 'room_users')
+            ->withTimestamps();
+    }
+
+    public function canJoinRoom($roomId)
+    {
+        /**
+         * Пользователь всегда может зайти в основной канал
+         */
+        if($roomId == 1)
+            return true;
+
+        $room = $this->rooms->where('id', $roomId)->first();
+        return $room ? true : false;
+    }
 }

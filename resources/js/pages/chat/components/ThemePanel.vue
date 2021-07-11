@@ -10,11 +10,11 @@
 export default {
     data(){
         return {
-            dark: false,
+            dark: localStorage.getItem('dark-theme') === 'true',
         }
     },
     mounted() {
-        this.dark = localStorage.getItem('dark-theme');
+
     },
     watch: {
         dark: function(val){

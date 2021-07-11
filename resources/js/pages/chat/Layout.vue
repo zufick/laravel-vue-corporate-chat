@@ -8,7 +8,6 @@
         >
             <h2>Channel name</h2>
             <v-spacer></v-spacer>
-
             <v-responsive max-width="156">
                 <v-text-field
                     dense
@@ -72,26 +71,7 @@
 
             </v-list>
         </v-navigation-drawer>
-
-        <v-main>
-            <router-view></router-view>
-        </v-main>
-
-        <v-footer
-            app
-            color="transparent"
-            height="72"
-            inset
-        >
-            <v-text-field
-                background-color="grey lighten-1"
-                dense
-                flat
-                hide-details
-                rounded
-                solo
-            ></v-text-field>
-        </v-footer>
+        <Chat></Chat>
     </v-app>
 
 </template>
@@ -99,12 +79,14 @@
 <script>
 import CurrentUserPanel from "./components/CurrentUserPanel";
 import ThemePanel from "./components/ThemePanel";
+import Chat from "./components/Chat";
 
 export default {
     data: () => ({ drawer: null }),
     components: {
         CurrentUserPanel,
-        ThemePanel
+        ThemePanel,
+        Chat
     }
 }
 </script>
