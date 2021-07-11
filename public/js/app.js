@@ -2434,25 +2434,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2482,7 +2463,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/store */ "./resources/js/store.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/store */ "./resources/js/store.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2519,18 +2546,22 @@ __webpack_require__.r(__webpack_exports__);
     return {
       roomId: 1,
       messages: [],
+      users: [],
       textMessage: ''
     };
   },
   mounted: function mounted() {
     var _this = this;
 
+    this.loadPreviousMessages();
     window.Echo.join("chat.".concat(this.roomId)).here(function (users) {
-      console.log("here", users);
+      _this.users = users;
     }).joining(function (user) {
-      console.log("joining", user.name);
+      _this.users.push(user);
     }).leaving(function (user) {
-      console.log("leaving", user.name);
+      _this.users = _this.users.filter(function (u) {
+        return u.id !== user.id;
+      });
     }).error(function (error) {
       console.error(error);
     }).listen('MessageEvent', function (_ref) {
@@ -2545,6 +2576,33 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    loadPreviousMessages: function loadPreviousMessages() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('/api/messages/' + _this2.roomId);
+
+              case 2:
+                res = _context.sent;
+                _this2.messages = res.data.messages;
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    userInitials: function userInitials(name) {
+      return name[0];
+    },
     sendMessage: function sendMessage() {
       if (/^ *$/.test(this.textMessage)) return;
       axios.post('/api/messages/' + this.roomId, {
@@ -2552,8 +2610,8 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.messages.push({
         user: {
-          id: _store__WEBPACK_IMPORTED_MODULE_0__.default.user.id,
-          name: _store__WEBPACK_IMPORTED_MODULE_0__.default.user.name
+          id: _store__WEBPACK_IMPORTED_MODULE_1__.default.user.id,
+          name: _store__WEBPACK_IMPORTED_MODULE_1__.default.user.name
         },
         text: this.textMessage
       });
@@ -52405,32 +52463,6 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-navigation-drawer",
-        { attrs: { app: "", clipped: "", right: "" } },
-        [
-          _c(
-            "v-list",
-            _vm._l(5, function(n) {
-              return _c(
-                "v-list-item",
-                { key: n, attrs: { link: "" } },
-                [
-                  _c(
-                    "v-list-item-content",
-                    [_c("v-list-item-title", [_vm._v("Item " + _vm._s(n))])],
-                    1
-                  )
-                ],
-                1
-              )
-            }),
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
       _c("Chat")
     ],
     1
@@ -52516,6 +52548,76 @@ var render = function() {
               expression: "textMessage"
             }
           })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-navigation-drawer",
+        { attrs: { app: "", clipped: "", right: "" } },
+        [
+          _c(
+            "v-list",
+            _vm._l(_vm.users, function(user, id) {
+              return _c(
+                "v-list-item",
+                { key: id, attrs: { link: "" } },
+                [
+                  _c(
+                    "v-list-item-content",
+                    [
+                      _c(
+                        "v-list-item-title",
+                        [
+                          _c(
+                            "v-badge",
+                            {
+                              staticClass: "mt-0 mr-1",
+                              attrs: {
+                                bordered: "",
+                                bottom: "",
+                                color: "green accent-4",
+                                dot: "",
+                                "offset-x": "10",
+                                "offset-y": "10"
+                              }
+                            },
+                            [
+                              _c(
+                                "v-avatar",
+                                { attrs: { color: "primary", size: "38" } },
+                                [
+                                  _c(
+                                    "span",
+                                    { staticClass: "white--text text-h5" },
+                                    [
+                                      _vm._v(
+                                        _vm._s(_vm.userInitials(user.name))
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(user.name) +
+                              "\n                    "
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            }),
+            1
+          )
         ],
         1
       )
