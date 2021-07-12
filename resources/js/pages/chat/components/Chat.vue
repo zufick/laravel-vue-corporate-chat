@@ -103,9 +103,6 @@ export default {
         });
     },
     computed: {
-        pageHeight () {
-            return document.body.scrollHeight
-        },
         /**
          * Сортировка списка пользователей (Сначала идут модераторы)
          * @returns {[]}
@@ -126,6 +123,9 @@ export default {
         async loadPreviousMessages(){
             let res = await axios.get('/api/messages/' + this.roomId);
             this.messages = res.data.messages;
+            setTimeout(() => {
+                this.scrollToBottom();
+            }, 50);
         },
         userInitials(name) {
             return name[0];
@@ -143,21 +143,27 @@ export default {
             };
             axios.post('/api/messages/' + this.roomId, { text: this.textMessage })
             .then(res => {
-                if(res.status === 201)
-                    message.id = res.data.message_id;
+                if(res.status === 201) {
+                    Object.assign(message, res.data.message);
+                }
             });
             this.messages.push(message);
             this.textMessage = '';
         },
         removeDeletedMessage(message){
             this.messages = this.messages.filter(m => m.id !== message.id);
+        },
+        scrollToBottom(){
+            this.$vuetify.goTo(document.body.scrollHeight, {
+                duration: 10
+            });
+            console.log(this.pageHeight);
         }
     },
     watch: {
         messages: function (val) {
-            this.$vuetify.goTo(this.pageHeight, {
-                duration: 10
-            });
+            if(document.body.offsetHeight - (window.innerHeight + window.scrollY) <= 50 )
+                this.scrollToBottom();
         }
     }
 }

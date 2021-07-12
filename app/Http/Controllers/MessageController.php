@@ -13,7 +13,7 @@ class MessageController extends Controller
     public function store(Request $request, Room $room)
     {
         $text = $request->input('text');
-        if(!$text)
+        if(!$text && $text !== "0")
             return;
 
         $user = $request->user();
@@ -22,8 +22,8 @@ class MessageController extends Controller
             'room_id' => $room->id,
             'text' => $text
         ]);
-        MessageEvent::dispatch($message->id, $room->id, $user->id, $user->name, $text);
-        return response(['message_id' => $message->id])->setStatusCode(201);
+        MessageEvent::dispatch($message, $room->id, $user->id, $user->name, $text);
+        return response(['message' => $message])->setStatusCode(201);
     }
 
     public function index(Request $request, Room $room)

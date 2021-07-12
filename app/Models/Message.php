@@ -20,6 +20,7 @@ class Message extends Model
                 'name' => $this->user->name,
             ],
             'text' =>  $this->text,
+            'created_at' => $this->created_at
         ];
     }
 

@@ -20,16 +20,17 @@ class MessageEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($id, $roomId, $userId, $userName, $text)
+    public function __construct($message, $roomId, $userId, $userName, $text)
     {
         $this->message = [
-            'id' => $id,
+            'id' => $message->id,
             'room_id' => $roomId,
             'user' => [
                 'id' => $userId,
                 'name' => $userName,
             ],
-            'text'=> $text
+            'text'=> $text,
+            'created_at' => $message->created_at
         ];
 
         $this->dontBroadcastToCurrentUser();
