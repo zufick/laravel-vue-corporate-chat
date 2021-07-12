@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Room extends Model
 {
     use HasFactory;
+
+    public function moderators()
+    {
+        return $this->belongsToMany(User::class, 'room_moderators', 'room_id', 'user_id');
+    }
 }

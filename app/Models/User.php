@@ -70,4 +70,15 @@ class User extends Authenticatable
         $room = $this->rooms->where('id', $roomId)->first();
         return $room ? true : false;
     }
+
+    public function canModerateRoom($roomId)
+    {
+        $room = Room::find($roomId);
+        if(!$room
+        || !($room->owner_id === $this->id || $this->admin || $room->moderators->where('id', $this->id)->first())
+        )
+            return false;
+
+        return true;
+    }
 }

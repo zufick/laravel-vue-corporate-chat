@@ -14,6 +14,7 @@ class Message extends Model
     public function toArray()
     {
         return [
+            'id' => $this->id,
             'user' => [
                 'id' => $this->user_id,
                 'name' => $this->user->name,

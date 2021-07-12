@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CanJoinRoom;
+use App\Http\Middleware\CanModerateMessage;
 use App\Http\Middleware\CheckAdmin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -55,6 +57,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'canmoderatemessage' => CanModerateMessage::class,
+        'canjoin' => CanJoinRoom::class,
         'admin' => CheckAdmin::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,

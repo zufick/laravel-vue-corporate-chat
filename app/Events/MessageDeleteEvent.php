@@ -10,27 +10,22 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageEvent implements ShouldBroadcast
+class MessageDeleteEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
+    public $roomId;
+    public $messageId;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($id, $roomId, $userId, $userName, $text)
+    public function __construct($roomId, $messageId)
     {
-        $this->message = [
-            'id' => $id,
-            'room_id' => $roomId,
-            'user' => [
-                'id' => $userId,
-                'name' => $userName,
-            ],
-            'text'=> $text
-        ];
+        $this->roomId = $roomId;
+        $this->messageId = $messageId;
 
         $this->dontBroadcastToCurrentUser();
     }
@@ -42,6 +37,6 @@ class MessageEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('chat.'.$this->message['room_id']);
+        return new PresenceChannel('chat.'.$this->roomId);
     }
 }

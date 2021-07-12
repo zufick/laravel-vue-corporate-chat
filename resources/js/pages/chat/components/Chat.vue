@@ -2,9 +2,7 @@
     <div class="fill-height">
         <v-main class="fill-height">
             <div class="d-flex fill-height flex-column justify-end">
-                <v-card class="m-4 align-end" v-for="(message, id) in messages" :key="id">
-                    <v-card-text><b>{{message.user.name}}:</b> {{ message.text }}</v-card-text>
-                </v-card>
+                <Message class="m-4 mt-2 align-end ml-2 mr-2" :message="message" :remove="removeDeletedMessage" :canModerateRoom="canModerateRoom" v-for="(message, id) in messages" :key="id"></Message>
             </div>
             <!--            <router-view></router-view>-->
         </v-main>
@@ -33,7 +31,7 @@
         >
             <v-list>
                 <v-list-item
-                    v-for="(user,id) in users"
+                    v-for="(user,id) in usersSorted"
                     :key="id"
                     link
                 >
@@ -56,6 +54,8 @@
                                     <span class="white--text text-h5">{{ userInitials(user.name) }}</span>
                                 </v-avatar>
                             </v-badge>
+                            <v-icon v-if="user.admin" color="amber darken-1">mdi-shield-star</v-icon>
+                            <v-icon v-if="user.canModerateRoom" color="amber darken-1">mdi-hammer</v-icon>
                             {{ user.name }}
                         </v-list-item-title>
                     </v-list-item-content>
@@ -68,9 +68,10 @@
 
 <script>
 import store from "@/store";
+import Message from "./Message";
 
 export default {
-
+    components: {Message},
     data() {
         return {
             roomId: 1,
@@ -96,11 +97,29 @@ export default {
         })
         .listen('MessageEvent', ({message}) => {
            this.messages.push(message);
+        })
+        .listen('MessageDeleteEvent', ({messageId}) => {
+            this.messages = this.messages.filter(m => m.id !== messageId);
         });
     },
     computed: {
         pageHeight () {
             return document.body.scrollHeight
+        },
+        /**
+         * Сортировка списка пользователей (Сначала идут модераторы)
+         * @returns {[]}
+         */
+        usersSorted(){
+            return this.users.sort((a,b) => {
+                return (a.canModerateRoom === b.canModerateRoom) ? 0 : a.canModerateRoom ? -1 : 1;
+            })
+        },
+        canModerateRoom(){
+            if(!this.users.length)
+                return false;
+
+            return this.users.find(u => u.id === store.user.id).canModerateRoom;
         }
     },
     methods: {
@@ -114,15 +133,24 @@ export default {
         sendMessage(){
             if (/^ *$/.test(this.textMessage))
                 return;
-            axios.post('/api/messages/' + this.roomId, { text: this.textMessage });
-            this.messages.push({
+
+            let message = {
                 user: {
                     id: store.user.id,
                     name: store.user.name,
                 },
                 text: this.textMessage,
+            };
+            axios.post('/api/messages/' + this.roomId, { text: this.textMessage })
+            .then(res => {
+                if(res.status === 201)
+                    message.id = res.data.message_id;
             });
+            this.messages.push(message);
             this.textMessage = '';
+        },
+        removeDeletedMessage(message){
+            this.messages = this.messages.filter(m => m.id !== message.id);
         }
     },
     watch: {
