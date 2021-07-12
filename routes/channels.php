@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('chat.{roomId}', function (\App\Models\User $user, $roomId) {
     if ($user->canJoinRoom($roomId)) {
-        return ['id' => $user->id, 'name' => $user->name];
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'admin' => $user->admin,
+            'canModerateRoom' => $user->canModerateRoom($roomId)
+        ];
     }
 });

@@ -24,9 +24,13 @@ Route::middleware('auth:sanctum')->group(function(){
         return $request->user();
     });
 
-    Route::get('messages/{room}', [\App\Http\Controllers\MessageController::class, 'index']);
-    Route::post('messages/{room}', [\App\Http\Controllers\MessageController::class, 'store']);
-
+    Route::middleware('canjoin')->group(function() {
+        Route::get('messages/{room}', [\App\Http\Controllers\MessageController::class, 'index']);
+        Route::post('messages/{room}', [\App\Http\Controllers\MessageController::class, 'store']);
+    });
+    Route::middleware('canmoderatemessage')->group(function() {
+        Route::delete('message/{message}', [\App\Http\Controllers\MessageController::class, 'delete']);
+    });
 
     Route::middleware('admin')->group(function() {
         Route::get('users', [\App\Http\Controllers\UserController::class, 'index']);
