@@ -28,9 +28,9 @@ class MessageController extends Controller
 
     public function index(Request $request, Room $room)
     {
-        #$messages = Message::where('room_id', $room->id)->paginate(5);
-        $messages = Message::where('room_id', $room->id)->get();
-        return response(['messages'=>$messages]);
+        $messages = Message::where('room_id', $room->id)->latest()->paginate(10);
+        #$messages = Message::where('room_id', $room->id)->get();
+        return response($messages);
     }
 
     public function delete(Request $request, Message $message)
