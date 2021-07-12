@@ -2541,6 +2541,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2551,6 +2552,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       roomId: 1,
       messages: [],
+      pagination: {},
+      paginationIndex: 1,
+      paginationLoading: false,
       users: [],
       textMessage: ''
     };
@@ -2607,17 +2611,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios.get('/api/messages/' + _this2.roomId);
+                _this2.paginationLoading = true;
+                _context.next = 3;
+                return axios.get("/api/messages/".concat(_this2.roomId, "?page=").concat(_this2.paginationIndex));
 
-              case 2:
+              case 3:
                 res = _context.sent;
-                _this2.messages = res.data.messages;
-                setTimeout(function () {
-                  _this2.scrollToBottom();
-                }, 50);
+                _this2.pagination = res.data;
+                res.data.data.reverse();
+                _this2.messages = res.data.data.concat(_this2.messages);
 
-              case 5:
+                if (_this2.paginationIndex === 1) {
+                  setTimeout(function () {
+                    _this2.scrollToBottom();
+                  }, 50);
+                }
+
+                _this2.paginationIndex++;
+                _this2.paginationLoading = false;
+
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -2656,7 +2669,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$vuetify.goTo(document.body.scrollHeight, {
         duration: 10
       });
-      console.log(this.pageHeight);
     }
   },
   watch: {
@@ -52744,18 +52756,32 @@ var render = function() {
         _c(
           "div",
           { staticClass: "d-flex fill-height flex-column justify-end" },
-          _vm._l(_vm.messages, function(message, id) {
-            return _c("Message", {
-              key: id,
-              staticClass: "m-4 mt-2 align-end ml-2 mr-2",
-              attrs: {
-                message: message,
-                remove: _vm.removeDeletedMessage,
-                canModerateRoom: _vm.canModerateRoom
-              }
+          [
+            _vm.pagination.current_page < _vm.pagination.last_page
+              ? _c(
+                  "v-btn",
+                  {
+                    staticClass: "mt-2 mr-2 ml-2",
+                    attrs: { loading: _vm.paginationLoading },
+                    on: { click: _vm.loadPreviousMessages }
+                  },
+                  [_vm._v("Загрузить ещё")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.messages, function(message, id) {
+              return _c("Message", {
+                key: id,
+                staticClass: "m-4 mt-2 align-end ml-2 mr-2",
+                attrs: {
+                  message: message,
+                  remove: _vm.removeDeletedMessage,
+                  canModerateRoom: _vm.canModerateRoom
+                }
+              })
             })
-          }),
-          1
+          ],
+          2
         )
       ]),
       _vm._v(" "),

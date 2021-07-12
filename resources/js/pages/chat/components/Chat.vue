@@ -2,6 +2,7 @@
     <div class="fill-height">
         <v-main class="fill-height">
             <div class="d-flex fill-height flex-column justify-end">
+                <v-btn class="mt-2 mr-2 ml-2" :loading="paginationLoading" v-if="pagination.current_page < pagination.last_page" @click="loadPreviousMessages">Загрузить ещё</v-btn>
                 <Message class="m-4 mt-2 align-end ml-2 mr-2" :message="message" :remove="removeDeletedMessage" :canModerateRoom="canModerateRoom" v-for="(message, id) in messages" :key="id"></Message>
             </div>
             <!--            <router-view></router-view>-->
@@ -76,6 +77,9 @@ export default {
         return {
             roomId: 1,
             messages: [],
+            pagination: {},
+            paginationIndex: 1,
+            paginationLoading: false,
             users: [],
             textMessage: '',
         }
@@ -121,11 +125,18 @@ export default {
     },
     methods: {
         async loadPreviousMessages(){
-            let res = await axios.get('/api/messages/' + this.roomId);
-            this.messages = res.data.messages;
-            setTimeout(() => {
-                this.scrollToBottom();
-            }, 50);
+            this.paginationLoading = true;
+            let res = await axios.get(`/api/messages/${this.roomId}?page=${this.paginationIndex}`);
+            this.pagination = res.data;
+            res.data.data.reverse();
+            this.messages = res.data.data.concat(this.messages);
+            if(this.paginationIndex === 1) {
+                setTimeout(() => {
+                    this.scrollToBottom();
+                }, 50);
+            }
+            this.paginationIndex++;
+            this.paginationLoading = false;
         },
         userInitials(name) {
             return name[0];
@@ -157,7 +168,6 @@ export default {
             this.$vuetify.goTo(document.body.scrollHeight, {
                 duration: 10
             });
-            console.log(this.pageHeight);
         }
     },
     watch: {
