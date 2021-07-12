@@ -1,20 +1,24 @@
 <template>
     <div>
         <v-hover v-model="hover">
-            <v-card class="d-flex justify-between align-center" outlined elevation="0">
+            <v-card class="d-flex justify-between align-center" outlined elevation="0" >
                 <v-card-text>
-                    <b>{{message.user.name}}:</b> {{ message.text }}
+                    <div class="d-flex justify-space-between">
+                        <b>{{message.user.name}}:</b>
+                        <span v-if="message.created_at" class="text--disabled ml-2">{{date}}</span>
+                    </div>
+                    <p class="mb-0 mt-2">{{ message.text }}</p>
                 </v-card-text>
                 <div v-if="hover">
                     <v-btn
                         v-if="message.id && canModerateMessage"
-                        class="mx-2"
                         fab
                         dark
                         x-small
                         color="red"
                         @click="delDialog = true"
-
+                        absolute
+                        style="right: -2px; bottom: -2px;"
                     >
                         <v-icon dark>
                             mdi-delete
@@ -76,6 +80,9 @@ export default {
     computed: {
         canModerateMessage(){
             return store.user.id === this.message.user.id || this.canModerateRoom;
+        },
+        date(){
+            return new Date(this.message.created_at).toLocaleString();
         }
     },
     methods: {

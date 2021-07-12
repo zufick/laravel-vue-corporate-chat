@@ -2581,10 +2581,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
   },
   computed: {
-    pageHeight: function pageHeight() {
-      return document.body.scrollHeight;
-    },
-
     /**
      * Сортировка списка пользователей (Сначала идут модераторы)
      * @returns {[]}
@@ -2617,8 +2613,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 2:
                 res = _context.sent;
                 _this2.messages = res.data.messages;
+                setTimeout(function () {
+                  _this2.scrollToBottom();
+                }, 50);
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -2641,7 +2640,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       axios.post('/api/messages/' + this.roomId, {
         text: this.textMessage
       }).then(function (res) {
-        if (res.status === 201) message.id = res.data.message_id;
+        if (res.status === 201) {
+          Object.assign(message, res.data.message);
+        }
       });
       this.messages.push(message);
       this.textMessage = '';
@@ -2650,13 +2651,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.messages = this.messages.filter(function (m) {
         return m.id !== message.id;
       });
+    },
+    scrollToBottom: function scrollToBottom() {
+      this.$vuetify.goTo(document.body.scrollHeight, {
+        duration: 10
+      });
+      console.log(this.pageHeight);
     }
   },
   watch: {
     messages: function messages(val) {
-      this.$vuetify.goTo(this.pageHeight, {
-        duration: 10
-      });
+      if (document.body.offsetHeight - (window.innerHeight + window.scrollY) <= 50) this.scrollToBottom();
     }
   }
 });
@@ -3375,6 +3380,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['message', 'canModerateRoom', 'remove'],
@@ -3387,6 +3396,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   computed: {
     canModerateMessage: function canModerateMessage() {
       return _store__WEBPACK_IMPORTED_MODULE_1__.default.user.id === this.message.user.id || this.canModerateRoom;
+    },
+    date: function date() {
+      return new Date(this.message.created_at).toLocaleString();
     }
   },
   methods: {
@@ -53642,8 +53654,19 @@ var render = function() {
             },
             [
               _c("v-card-text", [
-                _c("b", [_vm._v(_vm._s(_vm.message.user.name) + ":")]),
-                _vm._v(" " + _vm._s(_vm.message.text) + "\n            ")
+                _c("div", { staticClass: "d-flex justify-space-between" }, [
+                  _c("b", [_vm._v(_vm._s(_vm.message.user.name) + ":")]),
+                  _vm._v(" "),
+                  _vm.message.created_at
+                    ? _c("span", { staticClass: "text--disabled ml-2" }, [
+                        _vm._v(_vm._s(_vm.date))
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "mb-0 mt-2" }, [
+                  _vm._v(_vm._s(_vm.message.text))
+                ])
               ]),
               _vm._v(" "),
               _vm.hover
@@ -53654,12 +53677,13 @@ var render = function() {
                         ? _c(
                             "v-btn",
                             {
-                              staticClass: "mx-2",
+                              staticStyle: { right: "-2px", bottom: "-2px" },
                               attrs: {
                                 fab: "",
                                 dark: "",
                                 "x-small": "",
-                                color: "red"
+                                color: "red",
+                                absolute: ""
                               },
                               on: {
                                 click: function($event) {
