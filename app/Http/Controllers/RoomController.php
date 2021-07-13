@@ -46,6 +46,18 @@ class RoomController extends Controller
 
     }
 
+    public function update(Request $request, Room $room)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string'
+        ]);
+        if($validator->fails())
+            return response(['errors' => $validator->errors()]);
+
+        $room->update(['name' => $request->input('name')]);
+        $room->dispatchRoomUpdateToUsers();
+    }
+
     /**
      * Удаление канала
      * @param Request $request

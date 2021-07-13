@@ -1,14 +1,17 @@
 <template>
-    <div>
+    <div class="d-inline-block">
         <v-btn
-            class="mx-2"
+            class="p-2"
             fab
             dark
             x-small
+            elevation="0"
+            v-if="visible"
+            @click.stop
             @click="dialog = true"
         >
             <v-icon dark>
-                mdi-plus
+                mdi-pencil
             </v-icon>
         </v-btn>
 
@@ -19,7 +22,7 @@
         >
             <v-card>
                 <v-card-title>
-                    <span class="text-h5">Создание канала</span>
+                    <span class="text-h5">Редактирование канала</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
@@ -42,12 +45,11 @@
                     <v-btn
                         color="blue darken-1"
                         text
-                        @click="createRoom"
+                        @click="editRoom"
                         :loading="loading"
                         :disabled="!name"
-
                     >
-                        Создать
+                        Сохранить
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -56,18 +58,20 @@
 </template>
 
 <script>
+
 export default {
+    props: ['room', 'visible'],
     data(){
         return {
-            name: "",
+            name: this.room.name,
             dialog: false,
             loading: false,
         }
     },
     methods: {
-        async createRoom(){
+        async editRoom(){
             this.loading = true;
-            await axios.post("/api/rooms", {name: this.name});
+            await axios.patch("/api/rooms/" + this.room.id, {name: this.name});
             this.loading = false;
             this.dialog = false;
         }
