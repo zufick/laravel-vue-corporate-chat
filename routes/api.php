@@ -44,5 +44,9 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::middleware('canmoderateroom')->group(function() {
         Route::delete('rooms/{room}', [\App\Http\Controllers\RoomController::class, 'delete']);
         Route::get('rooms/{room}', [\App\Http\Controllers\RoomController::class, 'allUsersForRoom']);
+        Route::post('rooms/{room}/{user}/invite', [\App\Http\Controllers\RoomController::class, 'inviteUser']);
+        Route::post('rooms/{room}/{user}/kick', [\App\Http\Controllers\RoomController::class, 'kickUser']);
+        Route::post('rooms/{room}/{user}/moder', [\App\Http\Controllers\RoomController::class, 'moderUser']);
+        Route::post('rooms/{room}/{user}/demoder', [\App\Http\Controllers\RoomController::class, 'demoderUser']);
     });
 });

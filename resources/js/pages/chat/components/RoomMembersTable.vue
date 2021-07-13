@@ -37,21 +37,12 @@
                 ></v-checkbox>
             </template>
             <template v-slot:item.actions="{ item }">
-                <v-icon
-                    small
-                    class="mr-2"
-                    @click="editItem(item)"
-                    :disabled="item.id === currentUser.id || item.admin"
-                >
-                    mdi-pencil
-                </v-icon>
-                <v-icon
-                    small
-                    @click="deleteItem(item)"
-                    :disabled="item.id === currentUser.id || item.admin"
-                >
-                    mdi-delete
-                </v-icon>
+                <div v-if="!(item.id === currentUser.id || item.admin)">
+                    <v-btn @click="giveModerator(item.id)" v-if="item.canJoinRoom && !item.canModerateRoom">Назначить модератором</v-btn>
+                    <v-btn @click="removeModerator(item.id)" color="error" v-if="item.canModerateRoom">Забрать модераторство</v-btn>
+                    <v-btn @click="invite(item.id)" color="primary" v-if="!item.canJoinRoom">Пригласить</v-btn>
+                    <v-btn @click="kick(item.id)" color="error" v-if="item.canJoinRoom">Выгнать</v-btn>
+                </div>
             </template>
         </v-data-table>
 
@@ -93,16 +84,23 @@ export default {
             let res = await axios.get("/api/rooms/" + this.room.id);
             this.users = res.data;
         },
-        invite(){
+        async invite(userId){
+            let res = await axios.post(`/api/rooms/${this.room.id}/${userId}/invite`);
+            this.loadUsers();
+        },
+        async kick(userId){
+            let res = await axios.post(`/api/rooms/${this.room.id}/${userId}/kick`);
+            this.loadUsers();
 
         },
-        kick(){
+        async giveModerator(userId){
+            let res = await axios.post(`/api/rooms/${this.room.id}/${userId}/moder`);
+            this.loadUsers();
 
         },
-        giveModerator(){
-
-        },
-        removeModerator(){
+        async removeModerator(userId){
+            let res = await axios.post(`/api/rooms/${this.room.id}/${userId}/demoder`);
+            this.loadUsers();
 
         }
     },

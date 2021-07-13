@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class RoomModerator extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['room_id', 'user_id'];
 }
