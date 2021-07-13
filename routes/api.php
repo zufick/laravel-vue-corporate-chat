@@ -37,4 +37,6 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::patch('user/{user}', [\App\Http\Controllers\UserController::class, 'update']);
         Route::delete('user/{user}', [\App\Http\Controllers\UserController::class, 'delete']);
     });
+
+    Route::post('rooms', [\App\Http\Controllers\RoomController::class, 'index']);
 });

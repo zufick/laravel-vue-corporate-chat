@@ -1,5 +1,23 @@
 <template>
     <div class="fill-height">
+        <v-app-bar
+            app
+            clipped-right
+            flat
+            height="72"
+        >
+            <h2># {{room.name}}</h2>
+            <v-spacer></v-spacer>
+            <v-responsive max-width="156">
+                <v-text-field
+                    dense
+                    flat
+                    hide-details
+                    rounded
+                    solo-inverted
+                ></v-text-field>
+            </v-responsive>
+        </v-app-bar>
         <v-main class="fill-height">
             <div class="d-flex fill-height flex-column justify-end">
                 <v-btn class="mt-2 mr-2 ml-2" :loading="paginationLoading" v-if="pagination.current_page < pagination.last_page" @click="loadPreviousMessages">Загрузить ещё</v-btn>
@@ -72,10 +90,10 @@ import store from "@/store";
 import Message from "./Message";
 
 export default {
+    props: ['room'],
     components: {Message},
     data() {
         return {
-            roomId: 1,
             messages: [],
             pagination: {},
             paginationIndex: 1,
@@ -107,6 +125,9 @@ export default {
         });
     },
     computed: {
+        roomId(){
+            return this.room.id;
+        },
         /**
          * Сортировка списка пользователей (Сначала идут модераторы)
          * @returns {[]}

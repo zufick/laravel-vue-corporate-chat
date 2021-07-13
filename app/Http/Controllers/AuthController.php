@@ -29,7 +29,8 @@ class AuthController extends Controller
 
         $validated = $validator->validated();
         $validated['password'] = Hash::make($validated['password']);
-        User::create($validated);
+        $user = User::create($validated);
+        $user->joinGeneralRooms();
         return response(['message' => 'Вы успешно зарегистрировались! Вы сможете войти в учётную запись после подтверждения вашего аккаунта администратором.'])->setStatusCode(201);
     }
 

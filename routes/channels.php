@@ -27,3 +27,7 @@ Broadcast::channel('chat.{roomId}', function (\App\Models\User $user, $roomId) {
         ];
     }
 });
+
+Broadcast::channel('user.rooms.{userId}', function (\App\Models\User $user, $userId) {
+    return $user->id == $userId;
+});

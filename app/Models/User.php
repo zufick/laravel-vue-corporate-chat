@@ -81,4 +81,10 @@ class User extends Authenticatable
 
         return true;
     }
+
+    public function joinGeneralRooms()
+    {
+        RoomUser::create(['room_id' => 1, 'user_id' => $this->id]);
+        RoomUser::create(['room_id' => 2, 'user_id' => $this->id]);
+    }
 }
