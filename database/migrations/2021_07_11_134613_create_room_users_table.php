@@ -19,6 +19,7 @@ class CreateRoomUsersTable extends Migration
             $table->foreign('room_id')->references('id')->on('rooms')->cascadeOnDelete();
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->unique(['room_id', 'user_id']);
             $table->timestamps();
         });
     }

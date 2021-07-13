@@ -38,5 +38,11 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::delete('user/{user}', [\App\Http\Controllers\UserController::class, 'delete']);
     });
 
-    Route::post('rooms', [\App\Http\Controllers\RoomController::class, 'index']);
+    Route::get('rooms', [\App\Http\Controllers\RoomController::class, 'index']);
+    Route::post('rooms', [\App\Http\Controllers\RoomController::class, 'store']);
+
+    Route::middleware('canmoderateroom')->group(function() {
+        Route::delete('rooms/{room}', [\App\Http\Controllers\RoomController::class, 'delete']);
+        Route::get('rooms/{room}', [\App\Http\Controllers\RoomController::class, 'allUsersForRoom']);
+    });
 });

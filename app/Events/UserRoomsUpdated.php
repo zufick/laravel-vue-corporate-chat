@@ -10,6 +10,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class UserRoomsUpdated implements ShouldBroadcast
 {
@@ -25,7 +26,11 @@ class UserRoomsUpdated implements ShouldBroadcast
     public function __construct(User $user)
     {
         $this->userId = $user->id;
-        $this->rooms = $user->rooms;
+        $rooms = $user->rooms->toArray();
+        foreach ($rooms as &$room){
+            $room['canModerateRoom'] = $user->canModerateRoom($room['id']);
+        }
+        $this->rooms = $rooms;
     }
 
     /**
