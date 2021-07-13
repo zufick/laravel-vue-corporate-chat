@@ -20,21 +20,16 @@
                 shaped
             >
                 <div>
+                    <div class="d-flex justify-space-between align-center mb-2">
+                        <span>Каналы</span>
+                        <CreateRoomButton></CreateRoomButton>
+                    </div>
                     <v-progress-circular
                         v-if="loadingRooms"
                         indeterminate
                         color="primary"
                     ></v-progress-circular>
-                    <v-list-item
-                        v-for="room in rooms"
-                        :key="room.id"
-                        link
-                        @click="switchRoom(room)"
-                    >
-                        <v-list-item-content>
-                            <v-list-item-title><b>#</b> {{ room.name }}</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
+                    <RoomLink v-for="room in rooms" :key="room.id" @click="switchRoom(room)" :room="room"></RoomLink>
                 </div>
 
             </v-list>
@@ -57,9 +52,11 @@
 
 <script>
 import CurrentUserPanel from "./components/CurrentUserPanel";
+import CreateRoomButton from "./components/CreateRoomButton";
 import ThemePanel from "./components/ThemePanel";
 import Chat from "./components/Chat";
 import store from "@/store";
+import RoomLink from "./components/RoomLink";
 
 export default {
     data: () => (
@@ -71,9 +68,11 @@ export default {
         }
     ),
     components: {
+        RoomLink,
         CurrentUserPanel,
         ThemePanel,
-        Chat
+        Chat,
+        CreateRoomButton
     },
     mounted() {
         this.initRooms();
@@ -86,7 +85,7 @@ export default {
                 this.rooms = rooms;
                 this.loadingRooms = false;
             })
-            await axios.post("/api/rooms");
+            await axios.get("/api/rooms");
         },
         switchRoom(room){
             this.currentRoom = room;

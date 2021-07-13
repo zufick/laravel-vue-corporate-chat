@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\CanJoinRoom;
 use App\Http\Middleware\CanModerateMessage;
+use App\Http\Middleware\CanModerateRoom;
 use App\Http\Middleware\CheckAdmin;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -44,7 +45,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            'throttle:api',
+            'throttle:100,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -58,6 +59,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'canmoderatemessage' => CanModerateMessage::class,
+        'canmoderateroom' => CanModerateRoom::class,
         'canjoin' => CanJoinRoom::class,
         'admin' => CheckAdmin::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
