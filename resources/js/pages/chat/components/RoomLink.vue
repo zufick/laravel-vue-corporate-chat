@@ -9,20 +9,7 @@
                     <p class="mb-0 linkItemsContainer"><b>#</b> {{ room.name }}</p>
                     <div>
                         <RoomMembersButton :visible="hover && room.canModerateRoom" :room="room"></RoomMembersButton>
-
-                        <v-btn
-                            class="p-2"
-                            fab
-                            dark
-                            x-small
-                            elevation="0"
-                            v-if="hover && room.canModerateRoom"
-                            @click.stop
-                        >
-                            <v-icon dark>
-                                mdi-pencil
-                            </v-icon>
-                        </v-btn>
+                        <RoomEditButton :visible="hover && room.canModerateRoom" :room="room"></RoomEditButton>
                         <RoomDeleteButton :visible="hover && room.canModerateRoom" :room="room"></RoomDeleteButton>
                     </div>
                 </v-list-item-title>
@@ -34,9 +21,11 @@
 <script>
 import RoomDeleteButton from "./RoomDeleteButton";
 import RoomMembersButton from "./RoomMembersButton";
+import RoomEditButton from "./RoomEditButton";
 
 export default {
     components: {
+        RoomEditButton,
         RoomDeleteButton,
         RoomMembersButton
     },
