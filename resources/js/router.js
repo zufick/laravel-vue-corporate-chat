@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import Dashboard from './pages/chat/Layout.vue';
+import Dashboard from './pages/chat/Dashboard.vue';
 import Login from './pages/Login.vue';
 import Register from './pages/Register.vue';
 
