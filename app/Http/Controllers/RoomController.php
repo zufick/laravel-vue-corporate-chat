@@ -73,7 +73,8 @@ class RoomController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'canJoinRoom' => $user->canJoinRoom($room->id),
-                'canModerateRoom' => $user->canModerateRoom($room->id)
+                'canModerateRoom' => $user->canModerateRoom($room->id),
+                'admin' => $user->admin
             ];
         });
         return $users;
@@ -92,7 +93,7 @@ class RoomController extends Controller
     public function kickUser(Request $request, Room $room, User $user)
     {
         $roomUser = RoomUser::where(['room_id' => $room->id, 'user_id' => $user->id])->first();
-        if($roomUser){
+        if($roomUser && !$user->admin){
             $roomUser->delete();
             UserRoomsUpdated::dispatch($user);
         }
@@ -111,7 +112,7 @@ class RoomController extends Controller
     public function demoderUser(Request $request, Room $room, User $user)
     {
         $roomModer = RoomModerator::where(['room_id' => $room->id, 'user_id' => $user->id])->first();
-        if($roomModer){
+        if($roomModer && !$user->admin){
             $roomModer->delete();
             UserRoomsUpdated::dispatch($user);
         }

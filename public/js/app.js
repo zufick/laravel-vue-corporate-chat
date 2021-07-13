@@ -55963,7 +55963,7 @@ var render = function() {
             fn: function(ref) {
               var item = ref.item
               return [
-                !(item.id === _vm.currentUser.id || item.admin)
+                item.id !== _vm.currentUser.id && !item.admin
                   ? _c(
                       "div",
                       [

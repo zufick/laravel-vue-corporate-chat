@@ -37,7 +37,7 @@
                 ></v-checkbox>
             </template>
             <template v-slot:item.actions="{ item }">
-                <div v-if="!(item.id === currentUser.id || item.admin)">
+                <div v-if="(item.id !== currentUser.id && !item.admin)">
                     <v-btn @click="giveModerator(item.id)" v-if="item.canJoinRoom && !item.canModerateRoom">Назначить модератором</v-btn>
                     <v-btn @click="removeModerator(item.id)" color="error" v-if="item.canModerateRoom">Забрать модераторство</v-btn>
                     <v-btn @click="invite(item.id)" color="primary" v-if="!item.canJoinRoom">Пригласить</v-btn>
