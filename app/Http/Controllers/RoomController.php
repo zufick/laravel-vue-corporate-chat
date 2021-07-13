@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Events\UserRoomsUpdated;
 use App\Models\Room;
+use App\Models\RoomModerator;
+use App\Models\RoomUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class RoomController extends Controller
@@ -74,5 +77,43 @@ class RoomController extends Controller
             ];
         });
         return $users;
+    }
+
+    public function inviteUser(Request $request, Room $room, User $user)
+    {
+        try {
+            RoomUser::create(['room_id' => $room->id, 'user_id' => $user->id]);
+            UserRoomsUpdated::dispatch($user);
+        }catch (\Exception $exception) {
+            Log::info("Duplicate user in room $room->id $user->id");
+        }
+    }
+
+    public function kickUser(Request $request, Room $room, User $user)
+    {
+        $roomUser = RoomUser::where(['room_id' => $room->id, 'user_id' => $user->id])->first();
+        if($roomUser){
+            $roomUser->delete();
+            UserRoomsUpdated::dispatch($user);
+        }
+    }
+
+    public function moderUser(Request $request, Room $room, User $user)
+    {
+        try {
+            RoomModerator::create(['room_id' => $room->id, 'user_id' => $user->id]);
+            UserRoomsUpdated::dispatch($user);
+        }catch (\Exception $exception) {
+            Log::info("Duplicate user mod in room $room->id $user->id");
+        }
+    }
+
+    public function demoderUser(Request $request, Room $room, User $user)
+    {
+        $roomModer = RoomModerator::where(['room_id' => $room->id, 'user_id' => $user->id])->first();
+        if($roomModer){
+            $roomModer->delete();
+            UserRoomsUpdated::dispatch($user);
+        }
     }
 }

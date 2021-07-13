@@ -3967,15 +3967,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["room"],
@@ -4036,10 +4027,106 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    invite: function invite() {},
-    kick: function kick() {},
-    giveModerator: function giveModerator() {},
-    removeModerator: function removeModerator() {}
+    invite: function invite(userId) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.post("/api/rooms/".concat(_this2.room.id, "/").concat(userId, "/invite"));
+
+              case 2:
+                res = _context2.sent;
+
+                _this2.loadUsers();
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    kick: function kick(userId) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return axios.post("/api/rooms/".concat(_this3.room.id, "/").concat(userId, "/kick"));
+
+              case 2:
+                res = _context3.sent;
+
+                _this3.loadUsers();
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    giveModerator: function giveModerator(userId) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return axios.post("/api/rooms/".concat(_this4.room.id, "/").concat(userId, "/moder"));
+
+              case 2:
+                res = _context4.sent;
+
+                _this4.loadUsers();
+
+              case 4:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    removeModerator: function removeModerator(userId) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return axios.post("/api/rooms/".concat(_this5.room.id, "/").concat(userId, "/demoder"));
+
+              case 2:
+                res = _context5.sent;
+
+                _this5.loadUsers();
+
+              case 4:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    }
   },
   computed: {
     currentUser: function currentUser() {
@@ -55876,38 +55963,72 @@ var render = function() {
             fn: function(ref) {
               var item = ref.item
               return [
-                _c(
-                  "v-icon",
-                  {
-                    staticClass: "mr-2",
-                    attrs: {
-                      small: "",
-                      disabled: item.id === _vm.currentUser.id || item.admin
-                    },
-                    on: {
-                      click: function($event) {
-                        return _vm.editItem(item)
-                      }
-                    }
-                  },
-                  [_vm._v("\n                mdi-pencil\n            ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-icon",
-                  {
-                    attrs: {
-                      small: "",
-                      disabled: item.id === _vm.currentUser.id || item.admin
-                    },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteItem(item)
-                      }
-                    }
-                  },
-                  [_vm._v("\n                mdi-delete\n            ")]
-                )
+                !(item.id === _vm.currentUser.id || item.admin)
+                  ? _c(
+                      "div",
+                      [
+                        item.canJoinRoom && !item.canModerateRoom
+                          ? _c(
+                              "v-btn",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.giveModerator(item.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Назначить модератором")]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        item.canModerateRoom
+                          ? _c(
+                              "v-btn",
+                              {
+                                attrs: { color: "error" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.removeModerator(item.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Забрать модераторство")]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        !item.canJoinRoom
+                          ? _c(
+                              "v-btn",
+                              {
+                                attrs: { color: "primary" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.invite(item.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Пригласить")]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        item.canJoinRoom
+                          ? _c(
+                              "v-btn",
+                              {
+                                attrs: { color: "error" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.kick(item.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Выгнать")]
+                            )
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  : _vm._e()
               ]
             }
           }
