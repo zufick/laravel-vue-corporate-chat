@@ -21,6 +21,56 @@ laravelsail/php80-composer:latest \
 composer install --ignore-platform-reqs
 ```
 
+```
+npm install
+npm install -g laravel-echo-server
+```
+
+###Running App
+To run the container enter this command:
+```
+sail up -d
+```
+
+If app runs for the first time run this command to migrate database and seed default values:
+```
+sail artisan migrate:fresh --seed
+```
+
+The following commands run listening services:
+```
+npm run watch
+sail artisan queue:listen
+laravel-echo-server start
+```
+
+###Testing app
+
+```
+sail artisan test
+```
+
+###Folder structure
+```
+/
+├─ app/                 #Serverside app logic
+│  ├─ Events/           #Websocket events
+│  ├─ Http/
+│  │  ├─ Controllers/   #Controllers (DB operations & event calls)
+│  │  └─ Middleware/    #User access checks (for routing & etc.)
+│  └─ Models/           #DB models
+├─ database/        
+│  ├─ factories/        #Fake DB row filling values (fake users etc...)
+│  ├─ migrations/       #DB structure migrations 
+│  └─ seeders/          #Premade DB data seeding
+├─ resources/           #Compilable clientside script & styles (VueJS & Vuetify app)
+│  └─ js/
+├─ routes/              #App routes
+│  └─ api.php
+├─ tests/               #App tests
+└─ .env                 #Environment config (DB connection, Redis connection)
+```
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

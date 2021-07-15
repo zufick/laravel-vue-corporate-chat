@@ -75,7 +75,7 @@ class User extends Authenticatable
     {
         $room = Room::find($roomId);
         if(!$room
-        || !($room->owner_id === $this->id || $this->admin || $room->moderators->where('id', $this->id)->first())
+        || !($room->owner_id == $this->id || $this->admin || $room->moderators->where('id', $this->id)->first())
         )
             return false;
 
