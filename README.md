@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-###Installing Composer Dependencies For Existing Applications
+### Installing Composer Dependencies For Existing Applications
 
 If you are developing an application with a team, you may not be the one that initially creates the Laravel application. Therefore, none of the application's Composer dependencies, including Sail, will be installed after you clone the application's repository to your local computer.
 
@@ -26,7 +26,7 @@ npm install
 npm install -g laravel-echo-server
 ```
 
-###Running App
+### Running App
 To run the container enter this command:
 ```
 sail up -d
@@ -44,13 +44,13 @@ sail artisan queue:listen
 laravel-echo-server start
 ```
 
-###Testing app
+### Testing app
 
 ```
 sail artisan test
 ```
 
-###Folder structure
+### Folder structure
 ```
 /
 ├─ app/                 #Serverside app logic
