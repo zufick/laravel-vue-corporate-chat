@@ -37,7 +37,7 @@ If app runs for the first time run this command to migrate database and seed def
 sail artisan migrate:fresh --seed
 ```
 
-The following commands run listening services:
+The following commands run listening services (npm for js/css compiling, queue for laravel/redis communication, echo for websocket server):
 ```
 npm run watch
 sail artisan queue:listen
