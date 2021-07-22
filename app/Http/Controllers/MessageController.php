@@ -17,7 +17,7 @@ class MessageController extends Controller
             return;
 
         $user = $request->user();
-        $message = \App\Models\Message::create([
+        $message = Message::create([
             'user_id' => $user->id,
             'room_id' => $room->id,
             'text' => $text
@@ -29,7 +29,6 @@ class MessageController extends Controller
     public function index(Request $request, Room $room)
     {
         $messages = Message::where('room_id', $room->id)->latest()->paginate(10);
-        #$messages = Message::where('room_id', $room->id)->get();
         return response($messages);
     }
 
