@@ -29,26 +29,26 @@ npm install -g laravel-echo-server
 ### Running App
 To run the container enter this command:
 ```
-sail up -d
-(если sail не найден, то: "./vendor/laravel/sail/bin/sail up -d")
+./vendor/laravel/sail/bin/sail up -d
 ```
 
 If app runs for the first time run this command to migrate database and seed default values:
 ```
-sail artisan migrate:fresh --seed
+./vendor/laravel/sail/bin/sail artisan migrate:fresh --seed
 ```
 
 The following commands run listening services (npm for js/css compiling, queue for laravel/redis communication, echo for websocket server):
+(лучше всего запускать по отдельности в отдельных окнах терминала)
 ```
 npm run watch
-sail artisan queue:listen
+./vendor/laravel/sail/bin/sail artisan queue:listen
 laravel-echo-server start
 ```
 
 ### Testing app
 
 ```
-sail artisan test
+./vendor/laravel/sail/bin/sail artisan test
 ```
 
 ### Folder structure
