@@ -30,6 +30,7 @@ npm install -g laravel-echo-server
 To run the container enter this command:
 ```
 sail up -d
+(если sail не найден, то: "./vendor/laravel/sail/bin/sail up -d")
 ```
 
 If app runs for the first time run this command to migrate database and seed default values:
