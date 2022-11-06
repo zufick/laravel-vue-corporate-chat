@@ -20,19 +20,20 @@ npm install -g laravel-echo-server
 ```
 
 ### Running App
-To run the container enter this command:
-```
-./vendor/laravel/sail/bin/sail up -d
-```
-
 If app runs for the first time run these commands to create .env variables, generate APP_KEY, migrate database and seed default values:
 ```
 cp .env.example .env
 ```
 
 ```
+./vendor/laravel/sail/bin/sail up -d
 ./vendor/laravel/sail/bin/sail artisan key:generate
 ./vendor/laravel/sail/bin/sail artisan migrate:fresh --seed
+```
+
+Then next time you can just run the container with these commands:
+```
+./vendor/laravel/sail/bin/sail up -d
 ```
 
 The following commands run listening services (npm for js/css compiling, queue for laravel/redis communication, echo for websocket server):
