@@ -1,3 +1,5 @@
+# Business chat made with Laravel & Vue
+
 ![Screenshot](https://imgur.com/ZApjAHN.png)
 
 ### Installing Composer Dependencies
